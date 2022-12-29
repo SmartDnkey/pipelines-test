@@ -28,6 +28,7 @@ jobs:
           command: |
             echo "This is an integration step"
             exit 1
+    continue-on-error: true
     requires:
       - build
       - test
