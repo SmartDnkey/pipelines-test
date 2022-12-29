@@ -46,6 +46,7 @@ jobs:
           destination: artifact-file
 
 workflows:
+  version: 2
   django:
     jobs:
       - build:
@@ -53,28 +54,28 @@ workflows:
             branches:
               only:
                 - main
-      - test
+      - test:
           requires:
             - build
           filters:
             branches:
               only:
                 - main
-      - integration
+      - integration:
           requires:
             - test
           filters:
             branches:
               only:
                 - main
-      - prod
+      - prod:
           requires:
             - integration
           filters:
             branches:
               only:
                 - main
-      - artifact
+      - artifact:
           requires:
             - prod
           filters:
