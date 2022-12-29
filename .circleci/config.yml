@@ -9,8 +9,6 @@ jobs:
           python manage.py check
 
   test:
-    requires:
-      - build
     docker:
       - image: python:3.6
     steps:
@@ -48,7 +46,6 @@ jobs:
           destination: artifact-file
 
 workflows:
-  version: 2
   django:
     jobs:
       - build:
@@ -57,21 +54,29 @@ workflows:
               only:
                 - main
       - test
+          requires:
+            - build
           filters:
             branches:
               only:
                 - main
       - integration
+          requires:
+            - test
           filters:
             branches:
               only:
                 - main
       - prod
+          requires:
+            - integration
           filters:
             branches:
               only:
                 - main
       - artifact
+          requires:
+            - prod
           filters:
             branches:
               only:
